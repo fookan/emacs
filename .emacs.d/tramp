@@ -1,0 +1,26 @@
+;; -*- emacs-lisp -*- <18/07/31 00:43:17 c:/msys64/home/masato/.emacs.d/tramp>
+;; Tramp connection history.  Don't change this file.
+;; You can delete it, forcing Tramp to reapply the checks.
+
+(((tramp-file-name "ssh" "kazama" nil "192.168.56.101" nil nil nil)
+  nil)
+ ((tramp-file-name "plink" "kazama" nil "192.168.56.101" nil nil nil)
+  ("uname" "Linux 2.6.32-754.el6.x86_64")
+  ("locale" "LC_ALL=en_US.utf8")
+  ("test" "test")
+  ("remote-path"
+   ("/bin" "/usr/bin" "/sbin" "/usr/sbin" "/usr/local/bin" "/usr/local/sbin"))
+  ("remote-shell" "/bin/sh")
+  ("~" "/home/kazama")
+  ("file-exists" "test -e")
+  ("perl-file-spec" t)
+  ("perl-cwd-realpath" t)
+  ("perl" "\\perl")
+  ("case-insensitive" nil)
+  ("readlink" "\\readlink")
+  ("stat" "env QUOTING_STYLE=locale \\stat")
+  ("id" "/usr/bin/id")
+  ("gid-integer" 500)
+  ("ls" "/bin/ls --color=never")
+  ("ls-quoting-style" t)
+  ("gid-string" "kazama")))
