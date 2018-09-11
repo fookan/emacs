@@ -11,6 +11,9 @@
 ;; load-pathに追加
 (add-to-list 'load-path "~/.emacs.d/mylisp")
 
+
+
+
 ;; 警告音もフラッシュも全て無効(警告音が完全に鳴らなくなるので注意)
 (setq ring-bell-function 'ignore)
 
@@ -53,6 +56,9 @@
 ;;(define-key global-map(kbd "\C-m")'scroll-down-command)
 ;;(define-key global-map(kbd "\C-c")'copy-region-as-kill)
 ;;(define-key global-map(kbd "C-v")'yank)
+
+;; reload buffer
+(global-set-key (kbd "<f5>") 'revert-buffer-no-confirm)
 
 ;;_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 ;; window関連
@@ -381,9 +387,23 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(flycheck-display-errors-delay 0.5)
+ '(flycheck-display-errors-function
+   (lambda
+     (errors)
+     (let
+	 ((messages
+	   (mapcar
+	    (function flycheck-error-message)
+	    errors)))
+       (popup-tip
+	(mapconcat
+	 (quote identity)
+	 messages "
+")))))
  '(package-selected-packages
    (quote
-    (flycheck ac-php fuzzy auto-complete dired-subtree dired-toggle ssh popup web-mode php-mode neotree editorconfig))))
+    (undo-tree undohist flycheck ac-php fuzzy auto-complete dired-subtree dired-toggle ssh popup web-mode php-mode neotree editorconfig))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -400,3 +420,16 @@
 (add-to-list 'auto-mode-alist '("\\.as[cp]x$"   . web-mode))
 (add-to-list 'auto-mode-alist '("\\.erb$"       . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?$"     . web-mode))
+
+;*******************************//;undo-tre
+(require 'undo-tree)
+(global-undo-tree-mode t)
+(global-set-key (kbd "M-/") 'undo-tree-redo)
+(put 'upcase-region 'disabled nil)
+
+;*******************************//;undo-hist
+(require 'undohist)
+(undohist-initialize)
+;;; 永続化を無視するファイル名の正規表現
+(setq undohist-ignored-files
+      '("~/tmp/.undohist" "COMMIT_EDITMSG"))
