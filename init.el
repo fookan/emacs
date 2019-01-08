@@ -403,7 +403,7 @@
 ")))))
  '(package-selected-packages
    (quote
-    (undo-tree undohist flycheck ac-php fuzzy auto-complete dired-subtree dired-toggle ssh popup web-mode php-mode neotree editorconfig))))
+    (magit undo-tree undohist flycheck ac-php fuzzy auto-complete dired-subtree dired-toggle ssh popup web-mode php-mode neotree editorconfig))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -433,3 +433,7 @@
 ;;; 永続化を無視するファイル名の正規表現
 (setq undohist-ignored-files
       '("~/tmp/.undohist" "COMMIT_EDITMSG"))
+
+;; magit
+(require 'magit)
+(define-key global-map (kbd "M-g") 'magit-status)
