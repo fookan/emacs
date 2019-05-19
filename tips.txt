@@ -1,0 +1,91 @@
+CentOS6のminimalインストール
+1.インストール
+2.ユーザー作成
+  adduser <username>
+  passwd <username>
+3.sudoの権限付与
+ visudo
+ username   ALL=(ALL)   NOPASSWD: ALL
+
+ ※/etc/sudoers　を編集でも
+
+4.ネットワーク設定
+　/etc/sysconfig/network-scripts/ifcfg-eth0　を編集
+  ONBOOT=yes
+
+  sudo service network restart
+
+5.update
+ sudo yum update
+# sudo yum install kernel-devel
+# sudo yum install kernel-debug-devel
+ sudo yum install perl
+ sudo yum gcc
+
+5.additionalを追加
+  Gust Additonal CDを挿入
+  マウント
+　sudo mount /dev/cdrom /media
+  cd /media
+  sudo sh VBoxLinuxAdditions.rum
+
+6.virtualbox側で共有フォルダを設定
+
+7.共有フォルダのグループにユーザーを追加
+  usermod -aG GROUPS USER
+  usermod -aG vboxsf kazama
+
+
+7.virutalbox側でネットワークでホストオンリーアダプタを設定
+
+8.ifcfg-eth1を作成
+   設定説明：https://kazmax.zpp.jp/network/net1.html
+  /etc/sysconfig/network-scripts/ifcfg-eth1
+
+DEVICE=eth1
+HWADDR=08:00:27:20:8D:1C
+BOOTPROTO=none
+TYPE=Ethernet
+ONBOOT=yes
+NETMASK=255.255.255.0
+IPADDR=192.168.56.2
+USERCTL=no
+NM_CONTROLLED=no
+
+9.apacheのインストール
+ sudo yum install httpd
+
+ // 常時起動
+ sudo chkconfig httpd on
+
+ /etc/sysconfig/iptablesの編集とリスタート
+ -A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT
+
+/var/www/htmlの所有者変更
+sudo chown apache:apache html
+
+10.yum レポジトリ
+[CentOS6系]
+yum install epel-release
+または
+rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpmyum install epel-release
+
+[CentOS6系]
+rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+
+11.phpインストール
+sudo yum --enablerepo=remi-php56 install php
+
+12.SELinux
+　設定確認
+　getenforce
+
+　無効化
+　/etc/selinux/config　を編集
+  SELINUX=disabled
+
+
+注意事項
+/var/www/html直下にシンボリックリンクをはるとき
+リンク先のディレクトリの権限設定が大切。
+/home/xxxx/　にやる場合、/home/xxxx/にapcheがアクセスできるようにする
