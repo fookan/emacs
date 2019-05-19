@@ -89,3 +89,16 @@ sudo yum --enablerepo=remi-php56 install php
 /var/www/html直下にシンボリックリンクをはるとき
 リンク先のディレクトリの権限設定が大切。
 /home/xxxx/　にやる場合、/home/xxxx/にapcheがアクセスできるようにする
+
+
+13.composerをインストール
+　本家のURLのインストール手順でインストール
+　/usr/local/bin/composerにリネームして配置
+
+
+14.cakephpのプロジェクトをつくる
+  cd /var/www/html
+  composer create-project --prefer-dist cakephp/app samplecake
+
+ ※phpのzip必要かも　
+  userをapacheのグループにいれておく
