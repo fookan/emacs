@@ -157,6 +157,16 @@
 ;  (load-theme 'sanityinc-tomorrow-bright t))
 (load-theme 'sanityinc-tomorrow-bright t)
 
+;; font
+; フォントをインストール
+; fc-list でフォントを確認
+(set-fontset-font nil 'unicode "TakaoGothic")
+(set-face-attribute 'default nil :height 130)
+
+;; window
+(set-frame-size (selected-frame) 130 40)
+(set-frame-position (selected-frame) 0 0)
+
 ;; custom
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
