@@ -10,6 +10,7 @@
 ;; color-theme-sanityinc-tomorrow
 ;; flycheck
 ;; add-node-modules-path
+;; fuzzy
 
 ;;; package
 (require 'package)
@@ -122,11 +123,19 @@
 
 ;; auto-complete
 (when (require 'auto-complete-config nil t)
+  (require 'fuzzy) ;; fuzzy search (heaby)
+  (setq ac-use-fuzzy t)
+  ; (define-key ac-mode-map (kbd "<tab>") 'auto-complete)
   (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
   (define-key ac-complete-mode-map "\C-n" 'ac-next)
   (define-key ac-complete-mode-map "\C-p" 'ac-previous)
+  (global-auto-complete-mode t)
   (ac-config-default)
+  (setq ac-delay 0) ;; 補完候補表示までの時間
+  (setq ac-auto-show-menu 0.05) ;; ヒント表示までの時間
   (setq ac-user-menu-map t)
+  (setq ac-menu-height 25) ;; ちょっと大きめにとりましょう！
+  (setq ac-auto-start 3) ;; 個人的には3でもいいかも
   (setq ac-ignore-case nil))
 
 ;; undohist
@@ -189,7 +198,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (add-node-modules-path flycheck undo-tree undohist color-theme-sanityinc-tomorrow auto-complete))))
+    (fuzzy add-node-modules-path flycheck undo-tree undohist color-theme-sanityinc-tomorrow auto-complete))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
