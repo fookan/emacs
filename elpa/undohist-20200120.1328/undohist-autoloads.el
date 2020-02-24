@@ -3,7 +3,7 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil nil ("undohist.el") (24135 60451 814990 128000))
+;;;### (autoloads nil nil ("undohist.el") (24147 9815 753128 855000))
 
 ;;;***
 

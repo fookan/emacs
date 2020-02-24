@@ -1,17 +1,16 @@
+;;; --- my init.el
 ;;; prepare
 ;; gpg --homedir ~/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
 
 ;;; package-history
 ;; auto-complete
-;; undo-hist
+;; undohist
 ;; undo-tree
 ;; ddskk
 ;; color-theme-sanityinc-tomorrow
 
-;;; require
+;;; package
 (require 'package)
-
-;;;package
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
@@ -21,9 +20,8 @@
 (prefer-coding-system 'utf-8)
 
 ;; shellの環境変数を引き継ぐ
-(exec-path-from-shell-initialize)
-;(setq exec-path (parse-colon-path (getenv "PATH")))
-;(setq eshell-path-env (getenv "PATH"))
+(setq exec-path (parse-colon-path (getenv "PATH")))
+(setq eshell-path-env (getenv "PATH"))
 
 ; バックアップファイルとオートセーブファイの保存場所
 (add-to-list 'backup-directory-alist
@@ -31,7 +29,7 @@
 (setq auto-save-file-name-transforms
       `((".*",(expand-file-name "~/.emacs.d/backups/") t)))
 
-;; バックアップファイルを作成させない
+;; バックアップファイルを作成させない場合
 ;(setq make-backup-files nil)
 
 ;; オートセーブフィルを作る間隔
@@ -123,39 +121,39 @@
 ;; auto-complete
 (when (require 'auto-complete-config nil t)
   (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
+  (define-key ac-complete-mode-map "\C-n" 'ac-next)
+  (define-key ac-complete-mode-map "\C-p" 'ac-previous)
   (ac-config-default)
   (setq ac-user-menu-map t)
   (setq ac-ignore-case nil))
 
-;; undo-hist
+;; undohist
 (when (require 'undohist nil t)
   (undohist-initialize))
 
 ;; undo-tree
 ;; install: gpg --homedir ~/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
- (when (require 'undo-tree nil t)
-   ;; (define-key globa-map (kbd "C-") 'uno-tree-redo)
+(when (require 'undo-tree nil t)
+  (define-key global-map (kbd "M-/") 'undo-tree-redo)
    (global-undo-tree-mode))
 
 ;; skk
-(when (require 'skk nil t)
+;(when (require 'skk nil t)
 ;; (global-set-key (kbd "C-x j") 'skk-auto-fill-mode) ;;良い感じに改行を自動入力してくれる機能
-  (setq default-input-method "japanese-skk")         ;;emacs上での日本語入力にskkをつかう
-  (require 'skk-study))  
+;  (setq default-input-method "japanese-skk")         ;;emacs上での日本語入力にskkをつかう
+;  (require 'skk-study)
 ; 変換候補の表示位置
-(setq skk-show-candidates-always-pop-to-buffer t) 
+;  (setq skk-show-candidates-always-pop-to-buffer t)
 ; 候補表示件数を2列に
-(setq skk-henkan-show-candidates-rows 2) 
+;  (setq skk-henkan-show-candidates-rows 2)
 ; Enterで改行しない
-(setq skk-egg-like-newline t) 
+;  (setq skk-egg-like-newline t)
 ; カタカナを変換候補に入れる
-(setq skk-search-katakana 'jisx0201-kana)
+;  (setq skk-search-katakana 'jisx0201-kana))
 
 ;; color-theme-sanityinc-tomorrow-theme
-;上手くいかない
-;(when (require 'sanityinc-tomorrow-bright nil t)
-;  (load-theme 'sanityinc-tomorrow-bright t))
-(load-theme 'sanityinc-tomorrow-bright t)
+(when (require 'sanityinc-tomorrow-bright-theme nil t)
+  (load-theme 'sanityinc-tomorrow-bright t))
 
 ;; font
 ; フォントをインストール
@@ -167,7 +165,13 @@
 (set-frame-size (selected-frame) 130 40)
 (set-frame-position (selected-frame) 0 0)
 
-;; custom
+;; flycheck
+(when (require 'flycheck nil t)
+  (add-hook 'after-init-hook #'global-flycheck-mode))
+
+;; js-mode
+
+;;; init.el
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -175,10 +179,11 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (color-theme-sanityinc-tomorrow ddskk undo-tree undohist auto-complete magit exec-path-from-shell))))
+    (flycheck undo-tree undohist color-theme-sanityinc-tomorrow auto-complete))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- );
+ )
+;;;
