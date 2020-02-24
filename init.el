@@ -1,13 +1,14 @@
-;;; --- my init.el
-;;; prepare
+;;; package --- Summary:
+;;; prepare:
 ;; gpg --homedir ~/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
 
-;;; package-history
+;;; package-history:
 ;; auto-complete
 ;; undohist
 ;; undo-tree
 ;; ddskk
 ;; color-theme-sanityinc-tomorrow
+;; flycheck
 
 ;;; package
 (require 'package)
@@ -170,6 +171,12 @@
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
 ;; js-mode
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js-mode))
+(add-hook 'js-mode-hook
+          (lambda ()
+            (make-local-variable 'js-indent-level)
+            (setq js-indent-level 2)))
+
 
 ;;; init.el
 (custom-set-variables
