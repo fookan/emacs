@@ -1,4 +1,4 @@
-;;; package --- Summary:
+;;; init.el:
 ;;; prepare:
 ;; gpg --homedir ~/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
 
@@ -120,6 +120,16 @@
     (interactive) (revert-buffer t t))
 (global-set-key (kbd "<f5>") 'revert-buffer-no-confirm)
 
+;; for mbac ¥markを\にする
+(when (eq system-type 'darwin)
+  (define-key global-map [?¥] [?\\])
+  (define-key local-function-key-map [?\C-¥] [?\C-\\])
+  ; (define-key local-function-key-map [?\M-¥] [?\M-\\])
+  ; (define-key local-function-key-map [?\C-\M-¥] [?\C-\M-\\])
+  ; (define-key global-map (kdb "C-SPC") 'set-mark-command)
+  (setq mac-right-command-modifier 'meta)
+  (setq mac-option-modifier 'alt)
+  (setq mac-command-modifier 'meta))
 
 ;; auto-complete
 (when (require 'auto-complete-config nil t)
@@ -205,4 +215,5 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-;;;
+;;; init.el ends here
+
