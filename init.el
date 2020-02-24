@@ -9,6 +9,7 @@
 ;; ddskk
 ;; color-theme-sanityinc-tomorrow
 ;; flycheck
+;; add-node-modules-path
 
 ;;; package
 (require 'package)
@@ -172,11 +173,13 @@
 
 ;; js-mode
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js-mode))
+(flycheck-add-mode 'javascript-eslint 'js-mode)
 (add-hook 'js-mode-hook
           (lambda ()
             (make-local-variable 'js-indent-level)
             (setq js-indent-level 2)))
-
+(add-hook 'js-mode-hook 'flycheck-mode)
+(add-hook 'js-mode-hook #'add-node-modules-path)
 
 ;;; init.el
 (custom-set-variables
@@ -186,7 +189,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (flycheck undo-tree undohist color-theme-sanityinc-tomorrow auto-complete))))
+    (add-node-modules-path flycheck undo-tree undohist color-theme-sanityinc-tomorrow auto-complete))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
