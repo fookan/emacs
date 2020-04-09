@@ -120,16 +120,21 @@
     (interactive) (revert-buffer t t))
 (global-set-key (kbd "<f5>") 'revert-buffer-no-confirm)
 
-;; for mbac ¥markを\にする
+;; for mac ¥markを\にする
 (when (eq system-type 'darwin)
-  (define-key global-map [?¥] [?\\])
+  ; (define-key global-map [?¥] [?\\]) ; ￥マークで\を入力する場合はこちら
+  (define-key global-map [?\A-¥] [?\\]) ; option-￥マークで\を入力する場合はこちら
   (define-key local-function-key-map [?\C-¥] [?\C-\\])
   ; (define-key local-function-key-map [?\M-¥] [?\M-\\])
   ; (define-key local-function-key-map [?\C-\M-¥] [?\C-\M-\\])
-  ; (define-key global-map (kdb "C-SPC") 'set-mark-command)
+  ; (define-key global-map (kbd "C-SPC") 'set-mark-command)
   (setq mac-right-command-modifier 'meta)
   (setq mac-option-modifier 'alt)
   (setq mac-command-modifier 'meta))
+
+;; mark set
+(define-key global-map (kbd "C-SPC") 'set-mark-command)
+(define-key global-map (kbd "C-@") 'set-mark-command)
 
 ;; auto-complete
 (when (require 'auto-complete-config nil t)
@@ -158,6 +163,15 @@
   (define-key global-map (kbd "M-/") 'undo-tree-redo)
    (global-undo-tree-mode))
 
+;; 日本語入力
+;; tips
+; C-\で標準のKKCになる
+; SPACEで変換モードに入る。変換モード中に以下の操作ができる
+;  C-i 選択範囲をつめる。
+;  C-o 選択範囲を広げる
+;  l 候補一覧をページ送り
+; Kを押すとカタカナに変換する
+
 ;; skk
 ;(when (require 'skk nil t)
 ;; (global-set-key (kbd "C-x j") 'skk-auto-fill-mode) ;;良い感じに改行を自動入力してくれる機能
@@ -171,6 +185,10 @@
 ;  (setq skk-egg-like-newline t)
 ; カタカナを変換候補に入れる
 ;  (setq skk-search-katakana 'jisx0201-kana))
+
+;; macのデフォルトのIMEを使う
+(when (eq system-type 'darwin)
+  (setq default-input-method "mac-input-source"))
 
 ;; color-theme-sanityinc-tomorrow-theme
 (when (require 'sanityinc-tomorrow-bright-theme nil t)
@@ -200,6 +218,25 @@
 (add-hook 'js-mode-hook 'flycheck-mode)
 (add-hook 'js-mode-hook #'add-node-modules-path)
 
+;; mew まだ上手く設定できないのでコメントアウト
+; (autoload 'mew "mew" nil t)
+; (autoload 'mew-send "mew" nil t)
+;; Optional setup (Read Mail menu):
+; (setq read-mail-command 'mew)
+;; Optional setup (e.g. C-xm for sending a message):
+; (autoload 'mew-user-agent-compose "mew" nil t)
+; (if (boundp 'mail-user-agent)
+;     (setq mail-user-agent 'mew-user-agent))
+; (if (fboundp 'define-mail-user-agent)
+;     (define-mail-user-agent
+;       'mew-user-agent
+;      'mew-user-agent-compose
+;      'mew-draft-send-message
+;      'mew-draft-kill
+;      'mew-send-hook))
+
+
+
 ;;; init.el
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -208,7 +245,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (fuzzy add-node-modules-path flycheck undo-tree undohist color-theme-sanityinc-tomorrow auto-complete))))
+    (mew fuzzy add-node-modules-path flycheck undo-tree undohist color-theme-sanityinc-tomorrow auto-complete))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
