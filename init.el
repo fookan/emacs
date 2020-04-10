@@ -62,7 +62,13 @@
 ;; 行数を表示する
 (global-linum-mode t)
 
-;; 時間を表示
+;; 日付と時刻を表示
+(setq display-time-string-forms
+ '((format "%s/%s(%s)%s:%s"
+		 month day dayname
+		 24-hours minutes
+   )))
+(setq display-time-day-and-date t)
 (display-time)
 
 ;; 改行コードを表示する
