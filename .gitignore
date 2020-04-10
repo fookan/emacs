@@ -1,0 +1,8 @@
+# ディレクトリ
+/eshell
+/undohist
+/elpa
+
+# backupファイル
+*.bk
+_*
