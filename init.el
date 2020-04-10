@@ -190,6 +190,9 @@
 (when (eq system-type 'darwin)
   (setq default-input-method "mac-input-source"))
 
+;; ctrl-shift-sapceで言語切替できるようにする。
+(global-set-key (kbd "C-S-SPC") 'toggle-input-method)
+
 ;; color-theme-sanityinc-tomorrow-theme
 (when (require 'sanityinc-tomorrow-bright-theme nil t)
   (load-theme 'sanityinc-tomorrow-bright t))
