@@ -3,6 +3,8 @@
 ;; gpg --homedir ~/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
 
 ;;; package-history:
+;; mozc
+;;  sudo apt install emacs-mozc-bin
 ;; auto-complete
 ;; undohist
 ;; undo-tree
@@ -25,11 +27,13 @@
 
 ;;; mozc
 (require 'mozc) ; mozcの読み込み
+(set-language-environment "Japanese")
 (setq default-input-method "japanese-mozc") ; IMEをjapanes-mozcに
+(prefer-coding-system 'utf-8)
 
 ;;; 環境を日本語、UTF-8にする
-(set-language-environment "Japanese")
-(prefer-coding-system 'utf-8)
+;; (set-language-environment "Japanese")
+;; (prefer-coding-system 'utf-8)
 
 ;; shellの環境変数を引き継ぐ
 (setq exec-path (parse-colon-path (getenv "PATH")))
@@ -136,16 +140,20 @@
 (global-set-key (kbd "<f5>") 'revert-buffer-no-confirm)
 
 ;; for mac ¥markを\にする
-(when (eq system-type 'darwin)
-  ; (define-key global-map [?¥] [?\\]) ; ￥マークで\を入力する場合はこちら
-  (define-key global-map [?\A-¥] [?\\]) ; option-￥マークで\を入力する場合はこちら
-  (define-key local-function-key-map [?\C-¥] [?\C-\\])
-  ; (define-key local-function-key-map [?\M-¥] [?\M-\\])
-  ; (define-key local-function-key-map [?\C-\M-¥] [?\C-\M-\\])
-  ; (define-key global-map (kbd "C-SPC") 'set-mark-command)
-  (setq mac-right-command-modifier 'meta)
-  (setq mac-option-modifier 'alt)
-  (setq mac-command-modifier 'meta))
+;; (when (eq system-type 'darwin)
+;;   ; (define-key global-map [?¥] [?\\]) ; ￥マークで\を入力する場合はこちら
+;;   (define-key global-map [?\A-¥] [?\\]) ; option-￥マークで\を入力する場合はこちら
+;;   (define-key local-function-key-map [?\C-¥] [?\C-\\])
+;;   ; (define-key local-function-key-map [?\M-¥] [?\M-\\])
+;;   ; (define-key local-function-key-map [?\C-\M-¥] [?\C-\M-\\])
+;;   ; (define-key global-map (kbd "C-SPC") 'set-mark-command)
+;;   (setq mac-right-command-modifier 'meta)
+;;   (setq mac-option-modifier 'alt)
+;;   (setq mac-command-modifier 'meta))
+;; macのデフォルトのIMEを使う
+;; (when (eq system-type 'darwin)
+;;   (setq default-input-method "mac-input-source"))
+
 
 ;; mark set
 (define-key global-map (kbd "C-SPC") 'set-mark-command)
@@ -201,9 +209,6 @@
 ; カタカナを変換候補に入れる
 ;  (setq skk-search-katakana 'jisx0201-kana))
 
-;; macのデフォルトのIMEを使う
-(when (eq system-type 'darwin)
-  (setq default-input-method "mac-input-source"))
 
 ;; ctrl-shift-sapceで言語切替できるようにする。
 (global-set-key (kbd "C-S-SPC") 'toggle-input-method)
@@ -263,32 +268,50 @@
   (setq company-selection-wrap-around t) ; 候補の最後の次は先頭に戻る
   (setq completion-ignore-case t)
   (setq company-dabbrev-downcase nil)
+
   (global-set-key (kbd "C-M-i") 'company-complete)
   ;; C-n, C-pで補完候補を次/前の候補を選択
   (define-key company-active-map (kbd "C-n") 'company-select-next)
   (define-key company-active-map (kbd "C-p") 'company-select-previous)
-
-  (define-key company-active-map (kbd "C-h") nil) ;; C-hはバックスペース割当のため無効化
-  (define-key company-active-map (kbd "C-S-h") 'company-show-doc-buffer) ;; ドキュメント表示はC-Shift-h
+  (define-key company-active-map (kbd "C-s") 'company-filter-candidates) ;; C-sで絞り込む
+  (define-key company-active-map (kbd "<tab>") 'company-indent-or-complete-common)
+  ; (define-key company-active-map (kbd "C-h") nil) ;; C-hはバックスペース割当のため無効化
+  ; (define-key company-active-map (kbd "C-S-h") 'company-show-doc-buffer) ;; ドキュメント表示はC-Shift-h
   
-  ;; 未選択項目
+  ;; ;; 未選択項目
+  ;; (set-face-attribute 'company-tooltip nil
+  ;;                     :foreground "#36c6b0" :background "#244f36")
+  ;; ;; 未選択項目&一致文字
+  ;; (set-face-attribute 'company-tooltip-common nil
+  ;;                     :foreground "white" :background "#244f36")
+  ;; ;; 選択項目
+  ;; (set-face-attribute 'company-tooltip-selection nil
+  ;;                     :foreground "#a1ffcd" :background "#007771")
+  ;; ;; 選択項目&一致文字
+  ;; (set-face-attribute 'company-tooltip-common-selection nil
+  ;;                     :foreground "white" :background "#007771")
+  ;; ;; スクロールバー
+  ;; (set-face-attribute 'company-scrollbar-fg nil
+  ;;                     :background "#4cd0c1")
+  ;; ;; スクロールバー背景
+  ;; (set-face-attribute 'company-scrollbar-bg nil
+  ;;                     :background "#002b37")
+  ;; color settings
   (set-face-attribute 'company-tooltip nil
-                      :foreground "#36c6b0" :background "#244f36")
-  ;; 未選択項目&一致文字
+		              :foreground "black" :background "lightgrey")
   (set-face-attribute 'company-tooltip-common nil
-                      :foreground "white" :background "#244f36")
-  ;; 選択項目
-  (set-face-attribute 'company-tooltip-selection nil
-                      :foreground "#a1ffcd" :background "#007771")
-  ;; 選択項目&一致文字
+		              :foreground "black" :background "lightgrey")
   (set-face-attribute 'company-tooltip-common-selection nil
-                      :foreground "white" :background "#007771")
-  ;; スクロールバー
+		              :foreground "white" :background "steelblue")
+  (set-face-attribute 'company-tooltip-selection nil
+		              :foreground "black" :background "steelblue")
+  (set-face-attribute 'company-preview-common nil
+		              :background nil :foreground "lightgrey" :underline t)
   (set-face-attribute 'company-scrollbar-fg nil
-                      :background "#4cd0c1")
-  ;; スクロールバー背景
+		              :background "grey60")
   (set-face-attribute 'company-scrollbar-bg nil
-                      :background "#002b37")
+		              :background "gray40")
+
   ; tab
   ; (define-key company-active-map [tab] 'company-complete-selection) ;; TABで候補を設定
   ; 候補が１つの場合はそれを選択する．
