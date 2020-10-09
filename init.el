@@ -21,8 +21,8 @@
 
 ;;; package
 (require 'package)
-(add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
 
 ;;; mozc
@@ -106,6 +106,9 @@
 
 ;;バッファの終端を明示
 ;(setq-default indicate-empty-lines t)
+
+;; カッコの自動挿入
+(electric-pair-mode 1)
 
 ;; 選択範囲を光らせる
 (transient-mark-mode t)
@@ -229,7 +232,13 @@
 
 ;; flycheck
 (when (require 'flycheck nil t)
+;  (require 'flycheck-pos-tip)
   (add-hook 'after-init-hook #'global-flycheck-mode))
+
+;; flycheckのメッセージをtipsで表示する
+;(eval-after-load 'flycheck
+;  '(custom-set-variables
+;   '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
 
 ;; js-mode
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js-mode))
@@ -338,15 +347,19 @@
   ;; (define-key company-active-map [tab] 'company-complete-common2)
   )
 
+(require 'lsp-java)
+(add-hook 'java-mode-hook #'lsp)
+
 ;;; init.el
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(flycheck-display-errors-function (function flycheck-pos-tip-error-messages))
  '(package-selected-packages
    (quote
-    (mozc projectile company ## mew fuzzy add-node-modules-path flycheck undo-tree undohist color-theme-sanityinc-tomorrow auto-complete))))
+    (web-mode flycheck-pos-tip yasnippet spinner lsp-java mozc projectile company ## mew fuzzy add-node-modules-path flycheck undo-tree undohist color-theme-sanityinc-tomorrow auto-complete))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
