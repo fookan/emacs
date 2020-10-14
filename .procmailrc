@@ -1,0 +1,7 @@
+PATH=/usr/bin:/bin:/usr/local/bin:.
+
+# ディレクトリの設定
+MAILDIR=$HOME/Mail/
+DEFAULT=$MAILDIR/inbox/.
+LOGFILE=$MAILDIR/from-log
+LOCKFILE=$HOME/.lockmail

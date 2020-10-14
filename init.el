@@ -250,23 +250,18 @@
 (add-hook 'js-mode-hook 'flycheck-mode)
 (add-hook 'js-mode-hook #'add-node-modules-path)
 
-;; mew まだ上手く設定できないのでコメントアウト
-; (autoload 'mew "mew" nil t)
-; (autoload 'mew-send "mew" nil t)
-;; Optional setup (Read Mail menu):
-; (setq read-mail-command 'mew)
-;; Optional setup (e.g. C-xm for sending a message):
-; (autoload 'mew-user-agent-compose "mew" nil t)
-; (if (boundp 'mail-user-agent)
-;     (setq mail-user-agent 'mew-user-agent))
-; (if (fboundp 'define-mail-user-agent)
-;     (define-mail-user-agent
-;       'mew-user-agent
-;      'mew-user-agent-compose
-;      'mew-draft-send-message
-;      'mew-draft-kill
-;      'mew-send-hook))
 
+;; mew メールを読むだけ設定
+(autoload 'mew "mew" nil t)
+(autoload 'mew-send "mew" nil t)
+(setq mew-mailbox-type 'mbox)
+(setq mew-mbox-command "incm")
+(setq mew-mbox-command-arg "-u -d ~/Mail")
+
+;; wanderlust メールを読むだけ設定
+;; .foldersが必要
+;(setq elmo-maildir-folder-path "~/Mail/")
+;(setq wl-default-folder "+new")
 
 ;; company
 (when (require 'company nil t)
@@ -350,6 +345,7 @@
 (require 'lsp-java)
 (add-hook 'java-mode-hook #'lsp)
 
+
 ;;; init.el
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -359,7 +355,7 @@
  '(flycheck-display-errors-function (function flycheck-pos-tip-error-messages))
  '(package-selected-packages
    (quote
-    (web-mode flycheck-pos-tip yasnippet spinner lsp-java mozc projectile company ## mew fuzzy add-node-modules-path flycheck undo-tree undohist color-theme-sanityinc-tomorrow auto-complete))))
+    (wanderlust web-mode flycheck-pos-tip yasnippet spinner lsp-java mozc projectile company ## mew fuzzy add-node-modules-path flycheck undo-tree undohist color-theme-sanityinc-tomorrow auto-complete))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
